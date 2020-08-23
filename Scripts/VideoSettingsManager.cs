@@ -5,88 +5,91 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class VideoSettingsManager : MonoBehaviour
+namespace Albarnie.Menus
 {
-    [SerializeField]
-    TMP_Dropdown resolutionDropdown = null;
-    [SerializeField]
-    TMP_Dropdown fullscreenDropdown = null;
-    [SerializeField]
-    TMP_Dropdown qualityDropdown = null;
-
-    List<Resolution> resolutions = new List<Resolution>();
-
-    public void SetQuality (int level)
+    public class VideoSettingsManager : BaseMenu
     {
-        QualitySettings.SetQualityLevel(level);
-    }
+        [SerializeField]
+        TMP_Dropdown resolutionDropdown = null;
+        [SerializeField]
+        TMP_Dropdown fullscreenDropdown = null;
+        [SerializeField]
+        TMP_Dropdown qualityDropdown = null;
 
-    public void SetResolution(int index)
-    {
-        Resolution resolution = resolutions[index];
-        Screen.SetResolution(resolution.height, resolution.height, Screen.fullScreenMode);
-        Camera.main.ResetAspect();
-    }
+        List<Resolution> resolutions = new List<Resolution>();
 
-    public void SetFullScreen (int index)
-    {
-        Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, (FullScreenMode)index);
-        switch (index)
+        public void SetQuality(int level)
         {
-            //Fullscreen borderless
-            case 0:
-                resolutionDropdown.gameObject.SetActive(true);
-                break;
-            //fullscreen
-            case 1:
-                resolutionDropdown.gameObject.SetActive(true);
-                break;
-            //Windowed
-            case 2:
-                Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.Windowed);
-                resolutionDropdown.gameObject.SetActive(false);
-                break;
+            QualitySettings.SetQualityLevel(level);
         }
-    }
 
-    private void OnEnable()
-    {
-        //Set up resolution
-        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-        resolutions = new List<Resolution>();
-        float screenRatio = Round((float)Screen.width / (float)Screen.height);
-
-
-        TMP_Dropdown.OptionData mainOption = new TMP_Dropdown.OptionData();
-        mainOption.text = string.Format("{0} x {1}, ({2})", Screen.currentResolution.width, Screen.currentResolution.height, screenRatio);
-        options.Add(mainOption);
-        resolutions.Add(Screen.currentResolution);
-
-        foreach (Resolution resolution in Screen.resolutions)
+        public void SetResolution(int index)
         {
-            float ratio = Round((float)resolution.width / (float)resolution.height);
-            if (ratio == screenRatio)
-            {
-                TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
-                option.text = string.Format("{0} x {1}, ({2})", resolution.width, resolution.height, ratio);
+            Resolution resolution = resolutions[index];
+            Screen.SetResolution(resolution.height, resolution.height, Screen.fullScreenMode);
+            Camera.main.ResetAspect();
+        }
 
-                options.Add(option);
-                resolutions.Add(resolution);
+        public void SetFullScreen(int index)
+        {
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, (FullScreenMode)index);
+            switch (index)
+            {
+                //Fullscreen borderless
+                case 0:
+                    resolutionDropdown.gameObject.SetActive(true);
+                    break;
+                //fullscreen
+                case 1:
+                    resolutionDropdown.gameObject.SetActive(true);
+                    break;
+                //Windowed
+                case 2:
+                    Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, FullScreenMode.Windowed);
+                    resolutionDropdown.gameObject.SetActive(false);
+                    break;
             }
         }
 
+        private void OnEnable()
+        {
+            //Set up resolution
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+            resolutions = new List<Resolution>();
+            float screenRatio = Round((float)Screen.width / (float)Screen.height);
 
-        resolutionDropdown.options = options;
 
-        //Set up fullscreen
-        fullscreenDropdown.value = (int)Screen.fullScreenMode;
+            TMP_Dropdown.OptionData mainOption = new TMP_Dropdown.OptionData();
+            mainOption.text = string.Format("{0} x {1}, ({2})", Screen.currentResolution.width, Screen.currentResolution.height, screenRatio);
+            options.Add(mainOption);
+            resolutions.Add(Screen.currentResolution);
 
-        //Set up quality
-        qualityDropdown.value = QualitySettings.GetQualityLevel();
-    }
+            foreach (Resolution resolution in Screen.resolutions)
+            {
+                float ratio = Round((float)resolution.width / (float)resolution.height);
+                if (ratio == screenRatio)
+                {
+                    TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
+                    option.text = string.Format("{0} x {1}, ({2})", resolution.width, resolution.height, ratio);
 
-    float Round (float input)
-    {
-        return Mathf.Round(input * 100f) / 100f;
+                    options.Add(option);
+                    resolutions.Add(resolution);
+                }
+            }
+
+
+            resolutionDropdown.options = options;
+
+            //Set up fullscreen
+            fullscreenDropdown.value = (int)Screen.fullScreenMode;
+
+            //Set up quality
+            qualityDropdown.value = QualitySettings.GetQualityLevel();
+        }
+
+        float Round(float input)
+        {
+            return Mathf.Round(input * 100f) / 100f;
+        }
     }
 }

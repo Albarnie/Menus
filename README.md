@@ -4,7 +4,7 @@ A simple framework for creating and switching between multiple UI menus
  
 # Dependencies:
 
-Unity 2017.3 or later
+Unity 2019.3 or later
 
 com.unity.textmeshpro
 

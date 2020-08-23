@@ -5,38 +5,41 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 
-public class AudioSettingsManager : MonoBehaviour
+namespace Albarnie.Menus
 {
-    [SerializeField]
-    Slider volumeSlider;
-
-    [SerializeField]
-    Slider ambientVolumeSlider;
-
-    [SerializeField]
-    AudioMixer mixer = null;
-
-    [SerializeField]
-    float minVolume = -50f, maxvolume = 20f;
-
-    public void SetVolume(float level)
+    public class AudioSettingsManager : BaseMenu
     {
-        mixer.SetFloat("Master Volume", Mathf.Lerp(minVolume, maxvolume, level));
-    }
+        [SerializeField]
+        Slider volumeSlider;
 
-    public void SetAmbientVolume(float level)
-    {
-        mixer.SetFloat("Ambient Volume", Mathf.Lerp(minVolume, maxvolume, level));
-    }
+        [SerializeField]
+        Slider ambientVolumeSlider;
 
-    private void OnEnable()
-    {
-        float masterVolume;
-        mixer.GetFloat("Master Volume", out masterVolume);
-        volumeSlider.value = Mathf.InverseLerp(minVolume, maxvolume, masterVolume);
+        [SerializeField]
+        AudioMixer mixer = null;
 
-        float ambientVolume;
-        mixer.GetFloat("Ambient Volume", out ambientVolume);
-        ambientVolumeSlider.value = Mathf.InverseLerp(minVolume, maxvolume, ambientVolume);
+        [SerializeField]
+        float minVolume = -50f, maxvolume = 20f;
+
+        public void SetVolume(float level)
+        {
+            mixer.SetFloat("Master Volume", Mathf.Lerp(minVolume, maxvolume, level));
+        }
+
+        public void SetAmbientVolume(float level)
+        {
+            mixer.SetFloat("Ambient Volume", Mathf.Lerp(minVolume, maxvolume, level));
+        }
+
+        private void OnEnable()
+        {
+            float masterVolume;
+            mixer.GetFloat("Master Volume", out masterVolume);
+            volumeSlider.value = Mathf.InverseLerp(minVolume, maxvolume, masterVolume);
+
+            float ambientVolume;
+            mixer.GetFloat("Ambient Volume", out ambientVolume);
+            ambientVolumeSlider.value = Mathf.InverseLerp(minVolume, maxvolume, ambientVolume);
+        }
     }
 }

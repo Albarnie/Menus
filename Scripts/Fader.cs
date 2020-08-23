@@ -3,54 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Fader : MonoBehaviour
+namespace Albarnie.Menus
 {
-
-    [SerializeField]
-    Image image;
-
-    private void Awake()
+    public class Fader : MonoBehaviour
     {
-        StartFadeIn(2f, 2f);
-    }
 
-    public IEnumerator FadeIn (float time, float delay)
-    {
-        image.color = new Color(0, 0, 0, 1);
+        [SerializeField]
+        Image image;
 
-        yield return new WaitForSeconds(delay);
-
-        float timePassed = 0;
-        while (timePassed < time)
+        private void Awake()
         {
-            timePassed += Time.deltaTime;
-            image.color = new Color(0, 0, 0, 1 - (timePassed / time));
-            yield return null;
+            StartFadeIn(2f, 2f);
         }
-    }
 
-    public void StartFadeIn (float time, float delay)
-    {
-        StartCoroutine(FadeIn(time, delay));
-    }
-
-    public IEnumerator FadeOut(float time, float delay)
-    {
-        image.color = new Color(0, 0, 0, 0);
-
-        yield return new WaitForSeconds(delay);
-
-        float timePassed = 0;
-        while (timePassed < time)
+        public IEnumerator FadeIn(float time, float delay)
         {
-            timePassed += Time.deltaTime;
-            image.color = new Color(0, 0, 0, (timePassed / time));
-            yield return null;
-        }
-    }
+            image.color = new Color(0, 0, 0, 1);
 
-    public void StartFadeOut(float time, float delay)
-    {
-        StartCoroutine(FadeOut(time, delay));
+            yield return new WaitForSeconds(delay);
+
+            float timePassed = 0;
+            while (timePassed < time)
+            {
+                timePassed += Time.deltaTime;
+                image.color = new Color(0, 0, 0, 1 - (timePassed / time));
+                yield return null;
+            }
+        }
+
+        public void StartFadeIn(float time, float delay)
+        {
+            StartCoroutine(FadeIn(time, delay));
+        }
+
+        public IEnumerator FadeOut(float time, float delay)
+        {
+            image.color = new Color(0, 0, 0, 0);
+
+            yield return new WaitForSeconds(delay);
+
+            float timePassed = 0;
+            while (timePassed < time)
+            {
+                timePassed += Time.deltaTime;
+                image.color = new Color(0, 0, 0, (timePassed / time));
+                yield return null;
+            }
+        }
+
+        public void StartFadeOut(float time, float delay)
+        {
+            StartCoroutine(FadeOut(time, delay));
+        }
     }
 }

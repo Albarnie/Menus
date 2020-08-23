@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuManager : MonoBehaviour
+namespace Albarnie.Menus
 {
-    [SerializeField]
-    RectTransform rect;
-
-    private void Update()
+    public class PauseMenuManager : BaseMenu
     {
-        if(MenuManager.manager.currentMenuIndex == -1 && Input.GetKeyDown(KeyCode.Escape))
+        [SerializeField]
+        RectTransform rect;
+
+        private void Update()
         {
-            MenuManager.manager.ChangeMenu(rect);
+            if (MenuManager.manager.currentMenuIndex == -1 && Input.GetKeyDown(KeyCode.Escape))
+            {
+                MenuManager.manager.ChangeMenu(rect);
+            }
         }
-    }
 
-    public void GoToMainMenu ()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(0);
+        public void GoToMainMenu()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadSceneAsync(0);
+        }
     }
 }

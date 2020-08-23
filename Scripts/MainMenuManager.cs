@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuManager : MonoBehaviour
+namespace Albarnie.Menus
 {
-    [SerializeField]
-    string mainLevelName = "BaseScene";
-
-    Fader fader;
-
-    private void Awake()
+    public class MainMenuManager : MonoBehaviour
     {
-        fader = FindObjectOfType<Fader>();
-    }
+        [SerializeField]
+        string mainLevelName = "BaseScene";
 
-    public void Quit()
-    {
-        Application.Quit();
-    }
+        Fader fader;
 
-    public void GoToLevel()
-    {
-        StartCoroutine(LoadLevel());
-    }
+        private void Awake()
+        {
+            fader = FindObjectOfType<Fader>();
+        }
 
-    IEnumerator LoadLevel ()
-    {
-        fader.StartFadeOut(0.5f, 0f);
-        yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadSceneAsync(mainLevelName);
+        public void Quit()
+        {
+            Application.Quit();
+        }
+
+        public void GoToLevel()
+        {
+            StartCoroutine(LoadLevel());
+        }
+
+        IEnumerator LoadLevel()
+        {
+            fader.StartFadeOut(0.5f, 0f);
+            yield return new WaitForSeconds(0.5f);
+            SceneManager.LoadSceneAsync(mainLevelName);
+        }
     }
 }
